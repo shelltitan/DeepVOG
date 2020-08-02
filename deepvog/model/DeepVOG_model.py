@@ -35,8 +35,7 @@ def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
     conv_name_base = 'conv_' + block_type + str(stage) + '_'
     bn_name_base = 'bn_' + block_type + str(stage)  + '_'
     
-    a = tf.placeholder(tf.bool)  #placeholder for a single boolean value
-b = tf.cond(tf.equal(X_jump, 0), lambda:  X_joined_input = X, lambda: X_joined_input = Concatenate(axis = 3)([X,X_jump]))
+    b = tf.cond(tf.equal(X_jump, 0), lambda:  X_joined_input = X, lambda: X_joined_input = Concatenate(axis = 3)([X,X_jump]))
     # Joining X_jump from encoding side with X_uped
 #    if X_jump == 0:
 #        X_joined_input = X
