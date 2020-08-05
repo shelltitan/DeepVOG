@@ -34,7 +34,8 @@ def cond1(X):
     return X
 def cond2(X, X_jump):
     X_joined_input = Add()([X,X_jump])
-    return X_joined_input = Concatenate(axis = 3)([X,X_jump])
+    X_joined_input = Concatenate(axis = 3)([X,X_jump])
+    return X_joined_input
 
 def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s = 1, X_jump = 0, up_sampling = True):
     
