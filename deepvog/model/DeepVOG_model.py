@@ -32,9 +32,9 @@ def encoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
 
 def cond1(X_in):
     return X_in
-def cond2(X_in, X_jump = 0):
-    X_joined_input = Add()([X_in,X_jump])
-    X_joined_input = Concatenate(axis = 3)([X_in,X_jump])
+def cond2(X_in, X_jump_in = 0):
+    X_joined_input = Add()([X_in,X_jump_in])
+    X_joined_input = Concatenate(axis = 3)([X_in,X_jump_in])
     return X_joined_input
 
 def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s = 1, X_jump = 0, up_sampling = True):
@@ -43,7 +43,7 @@ def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
     conv_name_base = 'conv_' + block_type + str(stage) + '_'
     bn_name_base = 'bn_' + block_type + str(stage)  + '_'
     
-    X_joined_input = tf.cond(tf.equal(X_jump, 0), cond1(X_in = X), cond2(X_in = X,X_jump))
+    X_joined_input = tf.cond(tf.equal(X_jump, 0), cond1(X_in = X), cond2(X_in = X,X_jump_in = X_jump))
 #     Joining X_jump from encoding side with X_uped
 #    if X_jump == 0:
 #        X_joined_input = X
