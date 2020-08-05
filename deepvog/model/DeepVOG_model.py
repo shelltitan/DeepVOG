@@ -32,7 +32,7 @@ def encoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
 
 def cond1(X_in):
     return X_in
-def cond2(X_in, X_jump_in = 0):
+def cond2(X_in, X_jump_in):
     X_joined_input = Concatenate(axis = 3)([X_in,X_jump_in])
     return X_joined_input
 
