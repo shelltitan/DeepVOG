@@ -35,13 +35,13 @@ def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
     conv_name_base = 'conv_' + block_type + str(stage) + '_'
     bn_name_base = 'bn_' + block_type + str(stage)  + '_'
     
-    X_joined_input = tf.cond(tf.equal(X_jump, 0), lambda:  X, lambda: Concatenate(axis = 3)([X,X_jump]))
-    # Joining X_jump from encoding side with X_uped
-#    if X_jump == 0:
-#        X_joined_input = X
-#    else:
-    # X_joined_input = Add()([X,X_jump])
-#        X_joined_input = Concatenate(axis = 3)([X,X_jump])
+#    X_joined_input = tf.cond(tf.equal(X_jump, 0), lambda:  X, lambda: Concatenate(axis = 3)([X,X_jump]))
+     Joining X_jump from encoding side with X_uped
+    if X_jump == 0:
+        X_joined_input = X
+    else:
+        X_joined_input = Add()([X,X_jump])
+        X_joined_input = Concatenate(axis = 3)([X,X_jump])
     
     ##### MAIN PATH #####
     for i in np.arange(layer_num)+1:
