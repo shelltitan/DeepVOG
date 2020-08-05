@@ -30,11 +30,11 @@ def encoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
     X_downed = Activation('relu')(X_downed)
     return X, X_downed
 
-def cond1(X):
-    return X
-def cond2(X, X_jump = 0):
-    X_joined_input = Add()([X,X_jump])
-    X_joined_input = Concatenate(axis = 3)([X,X_jump])
+def cond1(X_in):
+    return X_in
+def cond2(X_in, X_jump = 0):
+    X_joined_input = Add()([X_in,X_jump])
+    X_joined_input = Concatenate(axis = 3)([X_in,X_jump])
     return X_joined_input
 
 def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s = 1, X_jump = 0, up_sampling = True):
