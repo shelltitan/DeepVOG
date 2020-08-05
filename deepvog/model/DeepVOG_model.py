@@ -5,6 +5,7 @@ from keras import layers
 from keras.layers import Input, Add, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D, AveragePooling2D, MaxPooling2D, GlobalMaxPooling2D
 from keras.layers import Conv2DTranspose, Concatenate
 from keras.models import Model, load_model
+import tensorflow as tf
 
 def encoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s = 1, X_skip=0):
     
@@ -29,19 +30,25 @@ def encoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s 
     X_downed = Activation('relu')(X_downed)
     return X, X_downed
 
+def cond1(X):
+    return X
+def cond2(X, X_jump):
+    X_joined_input = Add()([X,X_jump])
+    return X_joined_input = Concatenate(axis = 3)([X,X_jump])
+
 def decoding_block(X, filter_size, filters_num, layer_num, block_type, stage, s = 1, X_jump = 0, up_sampling = True):
     
     # defining name basis
     conv_name_base = 'conv_' + block_type + str(stage) + '_'
     bn_name_base = 'bn_' + block_type + str(stage)  + '_'
     
-#    X_joined_input = tf.cond(tf.equal(X_jump, 0), lambda:  X, lambda: Concatenate(axis = 3)([X,X_jump]))
- #    Joining X_jump from encoding side with X_uped
-    if X_jump == 0:
-        X_joined_input = X
-    else:
-        X_joined_input = Add()([X,X_jump])
-        X_joined_input = Concatenate(axis = 3)([X,X_jump])
+    X_joined_input = tf.cond(tf.equal(X_jump, 0), cond1(X), cond2(X,X_jump))
+#     Joining X_jump from encoding side with X_uped
+#    if X_jump == 0:
+#        X_joined_input = X
+#    else:
+#        X_joined_input = Add()([X,X_jump])
+#        X_joined_input = Concatenate(axis = 3)([X,X_jump])
     
     ##### MAIN PATH #####
     for i in np.arange(layer_num)+1:
